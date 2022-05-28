@@ -1,5 +1,10 @@
 # Testnet-ERC20-Drainer
 
+``Clone Repo``<br/>
+``Yarn//Npm install``<br/>
+``cd/dapp Yarn/Npm install``<br/>
+``npm/yarn start`` <br/>
+
   <h3><big>SOLE USE-CASE</big> is for the easy burning and destruction of held token balances accrued during testing and development.</h3>  <br>
   <ul>
   <li>User signs a transaction allowing access to token information.</li>
