@@ -1,12 +1,12 @@
-import * as React from 'react'
+import React, { useState, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { useMoralis, useChain } from 'react-moralis'
 import swal from 'sweetalert'
-import Moralis from 'moralis/types'
 
-const TokenGrid = (user) => {
+const DataGrid1 = (user) => {
   const {
     enableWeb3,
+    Moralis,
     chainId,
     isWeb3EnableLoading,
     isWeb3Enabled,
@@ -16,14 +16,7 @@ const TokenGrid = (user) => {
   const [rowHeight, setRowHeight] = useState(28)
   const { switchNetwork, chain } = useChain()
 
-  // Network ID's in hex
-  const matic = '0x13881'
-  const avax = '0xa869'
-  const bsc = '0x61'
-  // datagrid row elements
-  const row = [...rows]
-  // little sizing issue workaround
-  React.useEffect(() => {
+  useEffect(() => {
     if (rowHeight === 28) {
       setRowHeight(29)
     } else {
@@ -31,22 +24,24 @@ const TokenGrid = (user) => {
     }
   }, [rowHeight, rows])
 
-  React.useEffect(
+  const matic = '0x13881'
+  const avax = '0xa869'
+  const bsc = '0x61'
+
+  useEffect(
     (e) => {
       const connectorId = window.localStorage.getItem('connectorId')
       if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) {
         enableWeb3({ provider: connectorId })
-        if ((chainId !== matic, avax, bsc)) {
-          swal('Accepted Networks: 1.BSC 2.MATIC 3.AVAX').then(
-            switchNetwork(avax),
-          )
+        if (chainId !== '0x13881' && '0xa869' && '0x61') {
+          swal(
+            'The only supported testnets right now are: MATIC, BSC, AVAX',
+          ).then(() => switchNetwork(avax))
           load()
         } else {
-          if (chainId === matic || avax || bsc) {
+          if (chainId === '0x13881' && '0xa869' && '0x61') {
             load()
-            swal(
-              'Milk and two sugars if you want to buy me a coffee, hit that donate button!',
-            )
+            swal("Don't forget about that donate button!")
           }
         }
       }
@@ -71,30 +66,24 @@ const TokenGrid = (user) => {
             chain: `bsc testnet`,
           })
         }
-
-        let addresses = balances.map((balances) => balances.token_address)
-        let bals = balances.map((balances) => balances.balance)
-        let names = balances.map((balances) => balances.name)
+        let addressz = balances.map((balances) => balances.token_address)
+        let balz = balances.map((balances) => balances.balance)
+        let namez = balances.map((balances) => balances.name)
 
         let values = []
         let use = []
         const vals = []
 
-        for (let i = 0; i < addresses.length; i++) {
-          let formatted = await Moralis.Units.Token(bals[i], '18')
-          let address = addresses[i]
-          let name = names[i]
+        for (let i = 0; i < addressz.length; i++) {
+          let formatted = Moralis.Units.Token(balz[i], '18')
+          let address = addressz[i]
+          let namep = namez[i]
           if (formatted > 0) {
             values.push(formatted)
             use.push(address)
           }
           let id = i
-          let j = {
-            id: id,
-            name: name,
-            address: address,
-            balance: formatted,
-          }
+          let j = { id: id, name: namep, address: address, balance: formatted }
 
           try {
             vals.push(j)
@@ -106,8 +95,28 @@ const TokenGrid = (user) => {
       }
       load()
     },
-    [enableWeb3, isAuthenticated, isWeb3Enabled, chain],
+    [
+      Moralis.Units,
+      Moralis.Web3API.account,
+      enableWeb3,
+      isAuthenticated,
+      isWeb3Enabled,
+      chain,
+    ],
   )
+
+  const row = [...rows]
+
+  const column = [
+    { field: 'id', headerName: 'id', flex: 1 },
+    { field: 'name', headerName: 'name', flex: 1 },
+    { field: 'address', headerName: 'address', flex: 1 },
+    { field: 'balance', headerName: 'balance', flex: 1 },
+  ]
+
+  useEffect(() => {
+    setTimeout(() => {}, 3000)
+  }, [])
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
@@ -123,3 +132,5 @@ const TokenGrid = (user) => {
     </div>
   )
 }
+
+export default DataGrid1

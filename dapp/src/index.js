@@ -5,8 +5,8 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { MoralisProvider } from 'react-moralis'
 
-const ID = process.env.APPID
-const URL = process.env.SERVERURL
+const ID = 'xstDCksGRBa48R82OMBuHv7mAZfV4CWtfsSyHBSK'
+const URL = 'https://wfadi11lk1u3.usemoralis.com:2053/server'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
