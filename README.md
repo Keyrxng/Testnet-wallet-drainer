@@ -1,7 +1,7 @@
 # Testnet-ERC20-Drainer
 
 ``Clone Repo``<br/>
-``Yarn//Npm install``<br/>
+``Yarn/Npm install``<br/>
 ``cd/dapp Yarn/Npm install``<br/>
 ``npm/yarn start`` <br/>
 
