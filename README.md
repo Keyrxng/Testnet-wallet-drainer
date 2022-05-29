@@ -14,6 +14,8 @@
 -- Add support for more ERC standards<br/>
 -- Prettify the UI as it's weaaaaak rn<br/>
 
+# Description
+
   <h3><big>SOLE USE-CASE</big> is for the easy burning and destruction of held token balances accrued during testing and development.</h3>  <br>
   <ul>
   <li>User signs a transaction allowing access to token information.</li>
