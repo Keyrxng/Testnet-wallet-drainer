@@ -1,15 +1,24 @@
 # Testnet-ERC20-Drainer
 
-``Clone Repo``<br/>
-``Yarn/Npm install``<br/>
-``cd/dapp Yarn/Npm install``<br/>
-``npm/yarn start`` <br/>
+-- Local install instructions
+
+`Clone Repo`<br/>
+`Yarn/Npm install`<br/>
+`cd/dapp Yarn/Npm install`<br/>
+`npm/yarn start` <br/>
+
+# TODO's
+
+-- Add additional RPC providers to support more chains<br/>
+-- Collect and display contract stats from contract's public vars<br/>
+-- Add support for more ERC standards<br/>
+-- Prettify the UI as it's weaaaaak rn<br/>
 
   <h3><big>SOLE USE-CASE</big> is for the easy burning and destruction of held token balances accrued during testing and development.</h3>  <br>
   <ul>
   <li>User signs a transaction allowing access to token information.</li>
   <img src="./images/preauth_view.png"/>
-  <li>Tokens are returned in a react data grid with the given information:</li>
+  <li>Tokens are returned in a data grid with the given information:</li>
   <ul><li>Id <small>(DataGrid identifier)</small></li><li>Token Name</li><li>Token Address</li><li>Token Balance</li></ul><br>
     <img src="./images/postauth_view.png"/>
   <li>User clicks 'Autodrain' and MetaMask will ask for approval for each token with a valid balance.</li>
