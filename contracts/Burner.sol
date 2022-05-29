@@ -34,7 +34,8 @@ contract Burner {
         return IERC20(_token).balanceOf(msg.sender);
     }
     
-    /// @notice a catch all to approve this contract address after the mandatory Metamask approvals required on the frontend
+    /// @notice the frontend is required to invoke an approval call to each token indivually as seperate calls and does but this
+    /// @notice is a catch all to approve this contract address after the mandatory Metamask approvals required on the frontend
     function approveAll(address[] calldata _tokens) public {
         for(uint x=0; x < _tokens.length; x++){
             uint bal = fetchBal(_tokens[x]);

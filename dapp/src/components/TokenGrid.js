@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { useMoralis, useChain } from 'react-moralis'
-import swal from 'sweetalert'
 
 const DataGrid1 = (user) => {
   const {
     enableWeb3,
     Moralis,
     chainId,
-    isWeb3EnableLoading,
     isWeb3Enabled,
     isAuthenticated,
   } = useMoralis()
   const [rows, setRows] = useState([])
   const [rowHeight, setRowHeight] = useState(28)
-  const { switchNetwork, chain } = useChain()
+  const { chain } = useChain()
 
   useEffect(() => {
     if (rowHeight === 28) {
       setRowHeight(29)
     } else {
-      setRowHeight(28)
+      setRowHeight(2)
     }
   }, [rowHeight, rows])
 
@@ -30,22 +28,6 @@ const DataGrid1 = (user) => {
 
   useEffect(
     (e) => {
-      const connectorId = window.localStorage.getItem('connectorId')
-      if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) {
-        enableWeb3({ provider: connectorId })
-        if (chainId !== '0x13881' && '0xa869' && '0x61') {
-          swal(
-            'The only supported testnets right now are: MATIC, BSC, AVAX',
-          ).then(() => switchNetwork(avax))
-          load()
-        } else {
-          if (chainId === '0x13881' && '0xa869' && '0x61') {
-            load()
-            swal("Don't forget about that donate button!")
-          }
-        }
-      }
-
       async function load() {
         enableWeb3()
         let balances = []
@@ -125,8 +107,7 @@ const DataGrid1 = (user) => {
         rows={row}
         columns={column}
         autoHeight
-        pageSize={13}
-        initialState={row}
+        pageSize={15}
         loading
       />
     </div>

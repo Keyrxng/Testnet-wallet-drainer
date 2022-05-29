@@ -1,10 +1,12 @@
 // import logo from './logo.svg';
 import './App.css'
 import React from 'react'
-import { useMoralis } from 'react-moralis'
+import { useMoralis, useChain } from 'react-moralis'
 import { Container, Button, Box, Paper } from '@mui/material'
 import BottomNav from './components/BottomNav'
 import DataGrid1 from './components/TokenGrid'
+import burnerABI from './burnerAbi.json'
+import swal from 'sweetalert'
 
 const App = () => {
   const {
@@ -15,9 +17,12 @@ const App = () => {
     enableWeb3,
     Moralis,
     chainId,
+    isWeb3EnableLoading,
+    isWeb3Enabled,
   } = useMoralis()
+  const { switchNetwork } = useChain()
 
-  const drainer = '0xcf571E74aA0a60EA659eB2504035cbFE8568F6A6'
+  const burner = '0x6d3da290C8db6bD0dE83570c18457f5220C6082e'
   const IERC20 = [
     {
       anonymous: false,
@@ -210,6 +215,20 @@ const App = () => {
   const avax = '0xa869'
   const bsc = '0x61'
 
+  const connectorId = window.localStorage.getItem('connectorId')
+  if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) {
+    enableWeb3({ provider: connectorId })
+    if (chainId !== '0x13881' && '0xa869' && '0x61') {
+      swal('The only supported testnets right now are: MATIC, BSC, AVAX')
+      load()
+    } else {
+      if (chainId === '0x13881' || '0xa869' || '0x61') {
+        load()
+        swal("Don't forget about that donate button!")
+      }
+    }
+  }
+
   async function load() {
     enableWeb3({ provider: 'metamask' })
     let balances = []
@@ -249,309 +268,48 @@ const App = () => {
         abi: IERC20,
         params: {
           caller: user.eth_address,
-          spender: drainer,
+          spender: burner,
           amount: formatted,
         },
       })
       console.log(token)
     }
 
-    approveAll().then(() => burnTx())
+    approveAll()
   }
 
   async function approveAll() {
-    const tx = await Moralis.executeFunction({
-      contractAddress: '0xcf571E74aA0a60EA659eB2504035cbFE8568F6A6',
+    await Moralis.executeFunction({
+      contractAddress: burner,
       functionName: 'approveAll',
-      abi: [
-        {
-          inputs: [],
-          stateMutability: 'nonpayable',
-          type: 'constructor',
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: true,
-              internalType: 'address',
-              name: 'previousOwner',
-              type: 'address',
-            },
-            {
-              indexed: true,
-              internalType: 'address',
-              name: 'newOwner',
-              type: 'address',
-            },
-          ],
-          name: 'OwnershipTransferred',
-          type: 'event',
-        },
-        {
-          inputs: [],
-          name: 'owner',
-          outputs: [
-            {
-              internalType: 'address',
-              name: '',
-              type: 'address',
-            },
-          ],
-          stateMutability: 'view',
-          type: 'function',
-        },
-        {
-          inputs: [],
-          name: 'renounceOwnership',
-          outputs: [],
-          stateMutability: 'nonpayable',
-          type: 'function',
-        },
-        {
-          inputs: [],
-          name: 'tokenSetsDestoryed',
-          outputs: [
-            {
-              internalType: 'uint256',
-              name: '',
-              type: 'uint256',
-            },
-          ],
-          stateMutability: 'view',
-          type: 'function',
-        },
-        {
-          inputs: [
-            {
-              internalType: 'address',
-              name: 'newOwner',
-              type: 'address',
-            },
-          ],
-          name: 'transferOwnership',
-          outputs: [],
-          stateMutability: 'nonpayable',
-          type: 'function',
-        },
-        {
-          inputs: [
-            {
-              internalType: 'address',
-              name: '',
-              type: 'address',
-            },
-          ],
-          name: 'usersUsageCount',
-          outputs: [
-            {
-              internalType: 'uint256',
-              name: '',
-              type: 'uint256',
-            },
-          ],
-          stateMutability: 'view',
-          type: 'function',
-        },
-        {
-          inputs: [
-            {
-              internalType: 'address[]',
-              name: '_tokens',
-              type: 'address[]',
-            },
-          ],
-          name: 'batchBurn',
-          outputs: [],
-          stateMutability: 'nonpayable',
-          type: 'function',
-        },
-        {
-          inputs: [
-            {
-              internalType: 'address',
-              name: '_token',
-              type: 'address',
-            },
-          ],
-          name: 'fetchBal',
-          outputs: [
-            {
-              internalType: 'uint256',
-              name: '',
-              type: 'uint256',
-            },
-          ],
-          stateMutability: 'view',
-          type: 'function',
-        },
-        {
-          inputs: [
-            {
-              internalType: 'address[]',
-              name: '_tokens',
-              type: 'address[]',
-            },
-          ],
-          name: 'approveAll',
-          outputs: [],
-          stateMutability: 'nonpayable',
-          type: 'function',
-        },
-      ],
+      abi: burnerABI,
       params: {
         _tokens: use,
       },
     })
-    console.log(tx.data)
+    burnTx()
   }
 
   async function burnTx() {
-    const burnTX = await Moralis.executeFunction({
-      contractAddress: '0xcf571E74aA0a60EA659eB2504035cbFE8568F6A6',
+    const burnTx = await Moralis.executeFunction({
+      contractAddress: burner,
       functionName: 'batchBurn',
-      abi: [
-        {
-          inputs: [],
-          stateMutability: 'nonpayable',
-          type: 'constructor',
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: true,
-              internalType: 'address',
-              name: 'previousOwner',
-              type: 'address',
-            },
-            {
-              indexed: true,
-              internalType: 'address',
-              name: 'newOwner',
-              type: 'address',
-            },
-          ],
-          name: 'OwnershipTransferred',
-          type: 'event',
-        },
-        {
-          inputs: [],
-          name: 'owner',
-          outputs: [
-            {
-              internalType: 'address',
-              name: '',
-              type: 'address',
-            },
-          ],
-          stateMutability: 'view',
-          type: 'function',
-        },
-        {
-          inputs: [],
-          name: 'renounceOwnership',
-          outputs: [],
-          stateMutability: 'nonpayable',
-          type: 'function',
-        },
-        {
-          inputs: [],
-          name: 'tokenSetsDestoryed',
-          outputs: [
-            {
-              internalType: 'uint256',
-              name: '',
-              type: 'uint256',
-            },
-          ],
-          stateMutability: 'view',
-          type: 'function',
-        },
-        {
-          inputs: [
-            {
-              internalType: 'address',
-              name: 'newOwner',
-              type: 'address',
-            },
-          ],
-          name: 'transferOwnership',
-          outputs: [],
-          stateMutability: 'nonpayable',
-          type: 'function',
-        },
-        {
-          inputs: [
-            {
-              internalType: 'address',
-              name: '',
-              type: 'address',
-            },
-          ],
-          name: 'usersUsageCount',
-          outputs: [
-            {
-              internalType: 'uint256',
-              name: '',
-              type: 'uint256',
-            },
-          ],
-          stateMutability: 'view',
-          type: 'function',
-        },
-        {
-          inputs: [
-            {
-              internalType: 'address[]',
-              name: '_tokens',
-              type: 'address[]',
-            },
-          ],
-          name: 'batchBurn',
-          outputs: [],
-          stateMutability: 'nonpayable',
-          type: 'function',
-        },
-        {
-          inputs: [
-            {
-              internalType: 'address',
-              name: '_token',
-              type: 'address',
-            },
-          ],
-          name: 'fetchBal',
-          outputs: [
-            {
-              internalType: 'uint256',
-              name: '',
-              type: 'uint256',
-            },
-          ],
-          stateMutability: 'view',
-          type: 'function',
-        },
-        {
-          inputs: [
-            {
-              internalType: 'address[]',
-              name: '_tokens',
-              type: 'address[]',
-            },
-          ],
-          name: 'approveAll',
-          outputs: [],
-          stateMutability: 'nonpayable',
-          type: 'function',
-        },
-      ],
+      abi: burnerABI,
       params: {
         _tokens: use,
         _amounts: values,
       },
     })
-    console.log(burnTX)
+    await burnTx.then(
+      swal({
+        title: 'Transaction Success',
+        text: 'All of your tokens have been burned!',
+        icon: 'success',
+        dangerMode: false,
+      }).then(() => {
+        window.location.reload()
+      }),
+    )
   }
 
   if (!isAuthenticated) {
@@ -777,6 +535,36 @@ const App = () => {
               borderColor: 'white',
             }}
           >
+            <h3 align="center">Choose from supported testnets</h3>
+            <p>
+              <a onClick={() => switchNetwork(bsc)}>
+                {' '}
+                <img
+                  src="https://bitbill.oss-accelerate.aliyuncs.com/pics/coins/bsc.svg"
+                  alt="Binance Smart Chain"
+                  width="60"
+                  height="60"
+                />{' '}
+              </a>
+              <a onClick={() => switchNetwork(matic)}>
+                {' '}
+                <img
+                  src="https://research.binance.com/static/images/projects/matic-network/logo.png"
+                  alt="Polygon"
+                  width="60"
+                  height="60"
+                />{' '}
+              </a>
+              <a onClick={() => switchNetwork(avax)}>
+                {' '}
+                <img
+                  src="https://cryptologos.cc/logos/avalanche-avax-logo.svg?v=022"
+                  alt="Avalanche"
+                  width="60"
+                  height="60"
+                />{' '}
+              </a>
+            </p>
             <h1>Instructions For Use!</h1>
 
             <h3>1. Authenticate</h3>

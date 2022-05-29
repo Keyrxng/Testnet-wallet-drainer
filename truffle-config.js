@@ -61,9 +61,9 @@ module.exports = {
       provider: () =>
         new HDWalletProvider(
           process.env.MNEMONIC,
-          'https://evm-t3.cronos.org/',
+          'https://matic-mumbai.chainstacklabs.com',
         ),
-      network_id: 338, // Ropsten's id
+      network_id: 80001, // Ropsten's id
       gas: 7000000, // Ropsten has a lower block limit than mainnet
       confirmations: 1, // # of confs to wait between deployments. (default: 0)
       timeoutBlocks: 2000, // # of blocks before a deployment times out  (minimum/default: 50)

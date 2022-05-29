@@ -1,5 +1,5 @@
-const TokenDrainer = artifacts.require('TokenDrainer')
+const Burner = artifacts.require('Burner')
 
 module.exports = async function (deployer) {
-  await deployer.deploy(TokenDrainer)
+  await deployer.deploy(Burner)
 }
