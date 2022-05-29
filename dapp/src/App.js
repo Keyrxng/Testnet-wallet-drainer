@@ -211,6 +211,8 @@ const App = () => {
 
   let values = []
   let use = []
+  let tokenSets
+  let usageCount
   const matic = '0x13881'
   const avax = '0xa869'
   const bsc = '0x61'
@@ -220,7 +222,6 @@ const App = () => {
     enableWeb3({ provider: connectorId })
     if (chainId !== '0x13881' && '0xa869' && '0x61') {
       swal('The only supported testnets right now are: MATIC, BSC, AVAX')
-      load()
     } else {
       if (chainId === '0x13881' || '0xa869' || '0x61') {
         load()
@@ -250,6 +251,8 @@ const App = () => {
       })
     }
 
+    fetchData()
+
     let addressz = balances.map((balances) => balances.token_address)
     let balz = balances.map((balances) => balances.balance)
 
@@ -262,20 +265,16 @@ const App = () => {
         console.log(formatted)
         use.push(address)
       }
-      const token = await Moralis.executeFunction({
-        contractAddress: address,
-        functionName: 'approve',
-        abi: IERC20,
-        params: {
-          caller: user.eth_address,
-          spender: burner,
-          amount: formatted,
-        },
-      })
-      console.log(token)
     }
+  }
 
-    approveAll()
+  async function fetchData() {
+    const sets = await Moralis.executeFunction({
+      contractAddress: burner,
+      functionName: 'tokenSetsDestroyed',
+      abi: burnerABI,
+    })
+    console.log('sets: ', sets)
   }
 
   async function approveAll() {
@@ -515,7 +514,7 @@ const App = () => {
         <Button
           style={{ margin: '5px', backgroundColor: '#FFFFFF', color: 'black' }}
           variant="contained"
-          onClick={() => load()}
+          onClick={() => approveAll()}
         >
           AutoDrain
         </Button>
@@ -565,6 +564,23 @@ const App = () => {
                 />{' '}
               </button>
             </p>
+            <Paper
+              style={{
+                width: '35%',
+                margin: '5px',
+              }}
+            >
+              <div>{tokenSets}</div>
+            </Paper>
+            <Paper
+              style={{
+                width: '35%',
+                margin: '5px',
+                align: 'right',
+              }}
+            >
+              {usageCount}
+            </Paper>
             <h1>Instructions For Use!</h1>
 
             <h3>1. Authenticate</h3>
