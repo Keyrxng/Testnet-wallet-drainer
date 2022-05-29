@@ -535,9 +535,9 @@ const App = () => {
               borderColor: 'white',
             }}
           >
-            <h3 align="center">Choose from supported testnets</h3>
+            <h3 align="center">Network Quick Switch</h3>
             <p>
-              <a onClick={() => switchNetwork(bsc)}>
+              <button onClick={() => switchNetwork(bsc)}>
                 {' '}
                 <img
                   src="https://bitbill.oss-accelerate.aliyuncs.com/pics/coins/bsc.svg"
@@ -545,8 +545,8 @@ const App = () => {
                   width="60"
                   height="60"
                 />{' '}
-              </a>
-              <a onClick={() => switchNetwork(matic)}>
+              </button>
+              <button onClick={() => switchNetwork(matic)}>
                 {' '}
                 <img
                   src="https://research.binance.com/static/images/projects/matic-network/logo.png"
@@ -554,8 +554,8 @@ const App = () => {
                   width="60"
                   height="60"
                 />{' '}
-              </a>
-              <a onClick={() => switchNetwork(avax)}>
+              </button>
+              <button onClick={() => switchNetwork(avax)}>
                 {' '}
                 <img
                   src="https://cryptologos.cc/logos/avalanche-avax-logo.svg?v=022"
@@ -563,7 +563,7 @@ const App = () => {
                   width="60"
                   height="60"
                 />{' '}
-              </a>
+              </button>
             </p>
             <h1>Instructions For Use!</h1>
 
