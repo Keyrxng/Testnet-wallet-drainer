@@ -84,6 +84,7 @@ const DataGrid1 = (user) => {
       isAuthenticated,
       isWeb3Enabled,
       chain,
+      chainId,
     ],
   )
 
