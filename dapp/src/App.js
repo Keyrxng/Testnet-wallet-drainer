@@ -211,6 +211,8 @@ const App = () => {
 
   let values = []
   let use = []
+  let tokenSets
+  let usageCount
   const matic = '0x13881'
   const avax = '0xa869'
   const bsc = '0x61'
@@ -220,7 +222,6 @@ const App = () => {
     enableWeb3({ provider: connectorId })
     if (chainId !== '0x13881' && '0xa869' && '0x61') {
       swal('The only supported testnets right now are: MATIC, BSC, AVAX')
-      load()
     } else {
       if (chainId === '0x13881' || '0xa869' || '0x61') {
         load()
@@ -250,6 +251,8 @@ const App = () => {
       })
     }
 
+    fetchData()
+
     let addressz = balances.map((balances) => balances.token_address)
     let balz = balances.map((balances) => balances.balance)
 
@@ -262,20 +265,16 @@ const App = () => {
         console.log(formatted)
         use.push(address)
       }
-      const token = await Moralis.executeFunction({
-        contractAddress: address,
-        functionName: 'approve',
-        abi: IERC20,
-        params: {
-          caller: user.eth_address,
-          spender: burner,
-          amount: formatted,
-        },
-      })
-      console.log(token)
     }
+  }
 
-    approveAll()
+  async function fetchData() {
+    const sets = await Moralis.executeFunction({
+      contractAddress: burner,
+      functionName: 'tokenSetsDestroyed',
+      abi: burnerABI,
+    })
+    console.log('sets: ', sets)
   }
 
   async function approveAll() {
@@ -515,7 +514,7 @@ const App = () => {
         <Button
           style={{ margin: '5px', backgroundColor: '#FFFFFF', color: 'black' }}
           variant="contained"
-          onClick={() => load()}
+          onClick={() => approveAll()}
         >
           AutoDrain
         </Button>
@@ -535,8 +534,9 @@ const App = () => {
               borderColor: 'white',
             }}
           >
-            <h3 align="center">Choose from supported testnets</h3>
+            <h3 align="center">Network Quick Switch</h3>
             <p>
+<<<<<<< HEAD
               {' '}
               <img
                 src="https://bitbill.oss-accelerate.aliyuncs.com/pics/coins/bsc.svg"
@@ -565,7 +565,53 @@ const App = () => {
                 margin="10px"
                 onClick={() => switchNetwork(avax)}
               />{' '}
+=======
+              <button onClick={() => switchNetwork(bsc)}>
+                {' '}
+                <img
+                  src="https://bitbill.oss-accelerate.aliyuncs.com/pics/coins/bsc.svg"
+                  alt="Binance Smart Chain"
+                  width="60"
+                  height="60"
+                />{' '}
+              </button>
+              <button onClick={() => switchNetwork(matic)}>
+                {' '}
+                <img
+                  src="https://research.binance.com/static/images/projects/matic-network/logo.png"
+                  alt="Polygon"
+                  width="60"
+                  height="60"
+                />{' '}
+              </button>
+              <button onClick={() => switchNetwork(avax)}>
+                {' '}
+                <img
+                  src="https://cryptologos.cc/logos/avalanche-avax-logo.svg?v=022"
+                  alt="Avalanche"
+                  width="60"
+                  height="60"
+                />{' '}
+              </button>
+>>>>>>> 9f80909de3cc42f7038e4cd650d16448596cec29
             </p>
+            <Paper
+              style={{
+                width: '35%',
+                margin: '5px',
+              }}
+            >
+              <div>{tokenSets}</div>
+            </Paper>
+            <Paper
+              style={{
+                width: '35%',
+                margin: '5px',
+                align: 'right',
+              }}
+            >
+              {usageCount}
+            </Paper>
             <h1>Instructions For Use!</h1>
 
             <h3>1. Authenticate</h3>
