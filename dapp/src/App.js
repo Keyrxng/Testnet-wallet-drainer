@@ -537,33 +537,34 @@ const App = () => {
           >
             <h3 align="center">Choose from supported testnets</h3>
             <p>
-              <a onClick={() => switchNetwork(bsc)}>
-                {' '}
-                <img
-                  src="https://bitbill.oss-accelerate.aliyuncs.com/pics/coins/bsc.svg"
-                  alt="Binance Smart Chain"
-                  width="60"
-                  height="60"
-                />{' '}
-              </a>
-              <a onClick={() => switchNetwork(matic)}>
-                {' '}
-                <img
-                  src="https://research.binance.com/static/images/projects/matic-network/logo.png"
-                  alt="Polygon"
-                  width="60"
-                  height="60"
-                />{' '}
-              </a>
-              <a onClick={() => switchNetwork(avax)}>
-                {' '}
-                <img
-                  src="https://cryptologos.cc/logos/avalanche-avax-logo.svg?v=022"
-                  alt="Avalanche"
-                  width="60"
-                  height="60"
-                />{' '}
-              </a>
+              {' '}
+              <img
+                src="https://bitbill.oss-accelerate.aliyuncs.com/pics/coins/bsc.svg"
+                alt="Binance Smart Chain"
+                width="60"
+                height="60"
+                padding="10px"
+                margin="10px"
+                onClick={() => switchNetwork(bsc)}
+              />{' '}
+              <img
+                src="https://research.binance.com/static/images/projects/matic-network/logo.png"
+                alt="Polygon"
+                width="60"
+                height="60"
+                padding="10px"
+                margin="10px"
+                onClick={() => switchNetwork(matic)}
+              />{' '}
+              <img
+                src="https://cryptologos.cc/logos/avalanche-avax-logo.svg?v=022"
+                alt="Avalanche"
+                width="60"
+                height="60"
+                padding="10px"
+                margin="10px"
+                onClick={() => switchNetwork(avax)}
+              />{' '}
             </p>
             <h1>Instructions For Use!</h1>
 
