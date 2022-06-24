@@ -536,7 +536,6 @@ const App = () => {
           >
             <h3 align="center">Network Quick Switch</h3>
             <p>
-<<<<<<< HEAD
               {' '}
               <img
                 src="https://bitbill.oss-accelerate.aliyuncs.com/pics/coins/bsc.svg"
@@ -565,35 +564,6 @@ const App = () => {
                 margin="10px"
                 onClick={() => switchNetwork(avax)}
               />{' '}
-=======
-              <button onClick={() => switchNetwork(bsc)}>
-                {' '}
-                <img
-                  src="https://bitbill.oss-accelerate.aliyuncs.com/pics/coins/bsc.svg"
-                  alt="Binance Smart Chain"
-                  width="60"
-                  height="60"
-                />{' '}
-              </button>
-              <button onClick={() => switchNetwork(matic)}>
-                {' '}
-                <img
-                  src="https://research.binance.com/static/images/projects/matic-network/logo.png"
-                  alt="Polygon"
-                  width="60"
-                  height="60"
-                />{' '}
-              </button>
-              <button onClick={() => switchNetwork(avax)}>
-                {' '}
-                <img
-                  src="https://cryptologos.cc/logos/avalanche-avax-logo.svg?v=022"
-                  alt="Avalanche"
-                  width="60"
-                  height="60"
-                />{' '}
-              </button>
->>>>>>> 9f80909de3cc42f7038e4cd650d16448596cec29
             </p>
             <Paper
               style={{
